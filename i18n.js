@@ -9,7 +9,7 @@ let translations = {};
 let currentLang = DEFAULT_LANG;
 
 // Resolve a dot-path key against the loaded translations object.
-// Falls back to English, then to the key itself.
+// Falls back to English, then keeps the existing DOM text if nothing is loaded.
 function t(key) {
   function resolve(obj, parts) {
     return parts.reduce((o, k) => (o && o[k] !== undefined ? o[k] : null), obj);
@@ -17,7 +17,7 @@ function t(key) {
   const parts = key.split('.');
   return resolve(translations[currentLang], parts)
       || resolve(translations[DEFAULT_LANG], parts)
-      || key;
+      || null;
 }
 
 // Apply translations to all data-i18n elements in the document.
